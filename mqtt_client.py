@@ -144,10 +144,10 @@ class MQTT_Client:
                     self.boiler.state = Boiler.BoilerState.POWER_NOFROST
             elif msg.topic == self.subTopicAnibacterial:
                 self.boiler.antibacterial = int(msg.payload.decode())
-            self.boiler.set_state()
-        self.boiler.get_state()
+            self.boiler.set_state()  # Set state of boiler
+            self.boiler.get_state()  # Get current state of boiler
+        self.publish(self.boiler)  # Publish data to MQTT broker
         print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
-        self.publish(self.boiler)
 
     def on_log(self, client, userdata, level, buf):
         print(buf)

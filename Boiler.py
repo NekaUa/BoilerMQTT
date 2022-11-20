@@ -38,17 +38,17 @@ class Boiler:
         return 0
 
     def set_state(self):
-        if (self.state != BoilerState.UNKNOWN):
-            if (self.targetTemperature <= 75 and self.targetTemperature >= 0):
+        if self.state != BoilerState.UNKNOWN:
+            if 75 >= self.targetTemperature >= 0:
                 hex_string = r"AA040A000" + hex(self.state.value)[2:] + hex(self.targetTemperature)[2:]
-                sum = (184 + self.state.value + self.targetTemperature) % 256
-                if (sum < 10):
-                    hex_string += "0" + hex(sum)[2:]
+                checksum = (184 + self.state.value + self.targetTemperature) % 256  # Calculate checksum
+                if checksum < 10:
+                    hex_string += "0" + hex(checksum)[2:]
                 else:
-                    hex_string += hex(sum)[2:]
+                    hex_string += hex(checksum)[2:]
                 print(hex_string)
                 self.tcp_server.set_parameters(bytes.fromhex(hex_string))
-                if (self.antibacterial == 0):
+                if self.antibacterial == 0:
                     hex_string = r"AA030A0300BA"
                 else:
                     hex_string = r"AA030A0301BB"
