@@ -109,8 +109,8 @@ class MQTT_Client:
 
 
     def run(self):
-        # self.client.loop_forever()
-        self.client.loop_start()
+        self.client.loop_forever()
+        # self.client.loop_start()
 
     def stop(self):
         self.client.loop_stop()
